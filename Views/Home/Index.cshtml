@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+
+	<!-- /.website title -->
+@*	<title>Backyard Landing Page</title>*@
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<!-- CSS Files -->
+	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="fonts/icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet">
+	<link href="css/animate.css" rel="stylesheet" media="screen">
+	<link href="css/owl.theme.css" rel="stylesheet">
+	<link href="css/owl.carousel.css" rel="stylesheet">
+
+	<!-- Colors -->
+	<link href="css/css-index.css" rel="stylesheet" media="screen">
+	<!-- <link href="css/css-index-green.css" rel="stylesheet" media="screen"> -->
+	<!-- <link href="css/css-index-purple.css" rel="stylesheet" media="screen"> -->
+	<!-- <link href="css/css-index-red.css" rel="stylesheet" media="screen"> -->
+	<!-- <link href="css/css-index-orange.css" rel="stylesheet" media="screen"> -->
+	<!-- <link href="css/css-index-yellow.css" rel="stylesheet" media="screen"> -->
+    <!-- Google Fonts -->
+    <a href="c:\users\user\source\repos\masturah45\final-project\my final project\applicationcontext\applicationdbcontext.cs">c:\users\user\source\repos\masturah45\final-project\my final project\applicationcontext\applicationdbcontext.cs</a>
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" />
+	@{
+		Layout = null;
+		ViewData["Title"] = "Login";
+	}
+</head>
+
+<body data-spy="scroll" data-target="#navbar-scroll">
+
+	<partial name="_Notification" />
+	<!-- /.preloader -->
+
+	<!-- /.parallax full screen background image -->
+	<div class="fullscreen landing parallax" style="background-image:url('images/image5.jpg');" data-img-width="2000" data-img-height="1333" data-diff="100">
+
+		<div class="overlay">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-7">
+
+						<!-- /.logo -->
+						<div class="logo wow fadeInDown"> <a href=""></a></div>
+
+						<!-- /.main title -->
+						<h1 class="wow fadeInLeft">
+							Healing Forever
+						</h1>
+
+						<!-- /.header paragraph -->
+						<div class="landing-text wow fadeInUp">
+							<p>Counselling is taking therapy that involves a trained therapist listening to you and helping you find ways to deal with mental, emotional and physical issues. </p>
+						</div>
+
+						<!-- /.header button -->
+						<div class="head-btn wow fadeInLeft">
+							<a asp-controller="Therapist" asp-action="Create" class="btn-primary">Register AS A Therapist</a>
+							<a asp-controller="Client" asp-action="Create" class="btn-primary">Register AS A Client</a>
+						</div>
+
+
+
+					</div>
+
+					<!-- /.signup form -->
+					<div class="col-md-5">
+
+						<div class="signup-header wow fadeInUp">
+							<h3 class="form-title text-center">GET STARTED</h3>
+							<form asp-controller="User" asp-action="Login" class="form-header" role="form" id="#" >
+								@*<input type="hidden" name="u" value="503bdae81fde8612ff4944435">
+								<input type="hidden" name="id" value="bfdba52708">*@
+								<div class="form-group">
+									<input class="form-control input-lg" name="Email" id="name" type="email" placeholder="Your email" required>
+								</div>
+								<div class="form-group">
+									<input class="form-control input-lg" name="Password" id="email" type="password" placeholder="Password" required>
+								</div>
+								<div class="form-group last">
+									<input type="submit" class="btn btn-warning btn-block btn-lg" value="Login">
+								</div>
+								<p class="privacy text-center">We will not share your email. Read our <a href="privacy.html">privacy policy</a>.</p>
+							</form>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- NAVIGATION -->
+
+
+	<div id="menu">
+		<div class="navbar-wrapper navbar-light bg-light" role="navigation">
+			<div class="container">
+				<button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-backyard">
+					<span class="sr-only">Toggle navigation</span>
+					&#x2630;
+				</button> <a class="navbar-brand site-name" href="#top"><img src="images/logo2.png" alt="logo"></a>
+				<div id="navbar-scroll" class="collapse navbar-collapse navbar-backyard ml-auto">
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="#intro" class="nav-link">About</a>
+						</li>
+						<li>
+							<a href="#feature" class="nav-link">Features</a>
+						</li>
+						<li>
+							<a href="#download" class="nav-link">Download</a>
+						</li>
+						<li>
+							<a href="#package" class="nav-link">Pricing</a>
+						</li>
+						<li>
+							<a href="#testi" class="nav-link">Reviews</a>
+						</li>
+						<li>
+							<a href="#contact" class="nav-link">Contact</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- /.intro section -->
+	<div id="intro">
+		<div class="container">
+			<div class="row">
+
+				<!-- /.intro image -->
+				<div class="col-lg-6 intro-pic wow slideInLeft">
+					<img src="~/images/image1.jpg" alt="image" class="img-fluid">
+				</div>
+
+				<!-- /.intro content -->
+				<div class="col-lg-6 wow slideInRight">
+					<h2>Counselling can help you to cope with a mental health condition such as: </h2>
+					<p>Depression, Anxiety, Eating Disorder,Infertility etc </p>
+
+					<div class="btn-section"><a href="#feature" class="btn-default">Learn More</a></div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+	<!-- /.feature section -->
+	<div id="feature">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-10 mr-lg-auto ml-lg-auto col-12 text-lg-center feature-title">
+
+					<!-- /.feature title -->
+					<h2>What can counselling help with.</h2>
+					<p>Counselling can help you in various ways.....</p>
+				</div>
+			</div>
+
+
+
+			<div class="row row-feat">
+				<div class="col-lg-4 text-lg-center">
+
+					<!-- /.feature image -->
+					<div class="feature-img">
+						<img src="~/images/image2.jpg" alt="image" class="img-fluid wow fadeInLeft">
+					</div>
+				</div>
+
+				<div class="col-lg-8">
+					<div class="row">
+
+						<!-- /.feature 1 -->
+						<div class="col-lg-6 feat-list">
+@*							<i class="pe-7s-notebook pe-5x pe-va wow fadeInUp"></i>*@
+							<div class="inner">
+								<p>
+									a mental health condition such as depression, anxiety or an eating disorder
+								</p>
+							</div>
+						</div>
+
+						<!-- /.feature 2 -->
+						<div class="col-lg-6 feat-list">
+@*							<i class="pe-7s-cash pe-5x pe-va wow fadeInUp" data-wow-delay="0.2s"></i>*@
+							<div class="inner">
+								<p>an upsetting physical health cndition, such as infertility</p>
+							</div>
+						</div>
+
+						<!-- /.feature 3 -->
+						<div class="col-lg-6 feat-list">
+@*							<i class="pe-7s-cart pe-5x pe-va wow fadeInUp" data-wow-delay="0.4s"></i>*@
+							<div class="inner">
+								<p>a difficult life event, such as a bereavement, a relationship breakdown or work related stress.</p>
+							</div>
+						</div>
+
+						<!-- /.feature 4 -->
+						<div class="col-lg-6 feat-list">
+@*							<i class="pe-7s-users pe-5x pe-va wow fadeInUp" data-wow-delay="0.6s"></i>*@
+							<div class="inner">
+								<p>difficult emotions. For example, low self esteem, anger, sexual identity etc</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- /.feature 2 section -->
+	<div id="feature-2">
+		<div class="container">
+			<div class="row">
+
+				<!-- /.feature content -->
+				<div class="col-lg-6 wow fadeInLeft">
+					<h2>What to expect from counselling</h2>
+					<p>
+						At you appointment, you will be encouraged to talk about your feelings and emotions with a trained therapist, who will listen and support you without judging or criticising.The therapist cn help you gain a better understanding of your feelings and thought process, and find your own solutions to problems.But they will not usually give advice or tell you what to do.
+					</p>
+
+					<div class="btn-section"><a href="#download" class="btn-default">Download Now</a></div>
+
+				</div>
+
+				<!-- /.feature image -->
+				<div class="col-lg-6 feature-2-pic wow fadeInRight">
+					<img src="~/images/image3.jpg" alt="macbook" class="img-fluid">
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- /.download section -->
+	<div id="download">
+		<div class="action fullscreen parallax" style="background-image:url('images/image4.jpg');" data-img-width="2000" data-img-height="1333" data-diff="100">
+			<div class="overlay">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-8 mr-auto ml-auto col-sm-12 text-lg-center">
+
+							<!-- /.download title -->
+							<h2 class="wow fadeInRight">Would like to know more?</h2>
+							<p class="download-text wow fadeInLeft">We'll research the market, identify the right target audience, analyze competitors and avoid users churn to increase retention. Download now for free and join with thousands happy clients.</p>
+
+							<!-- /.download button -->
+							<div class="download-cta wow fadeInLeft">
+								<a href="#contact" class="btn-secondary">Get Connected</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- /.testimonial section -->
+	<div id="testi">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<h2 class="wow fadeInLeft">TESTIMONIALS</h2>
+					<div class="title-line wow fadeInRight"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-10 mr-auto ml-auto">
+					<div id="owl-testi" class="owl-carousel owl-theme wow fadeInUp">
+
+						<!-- /.testimonial 1 -->
+						<div class="testi-item">
+							<div class="client-pic text-center">
+
+								<!-- /.client photo -->
+								<img src="images/testi1.png" alt="client">
+							</div>
+							<div class="box">
+
+								<!-- /.testimonial content -->
+								<p class="message text-center">"We are very happy and satisfied with Backyard service. Our account manager is efficient and very knowledgeable. It was able to create a vast fan base within very short period of time. We would highly recommend Backyard App to anyone."</p>
+							</div>
+							<div class="client-info text-center">
+
+								<!-- /.client name -->
+								Jennifer Lopez, <span class="company">Microsoft</span>
+							</div>
+						</div>
+
+						<!-- /.testimonial 2 -->
+						<div class="testi-item">
+							<div class="client-pic text-center">
+
+								<!-- /.client photo -->
+								<img src="images/testi2.png" alt="client">
+							</div>
+							<div class="box">
+
+								<!-- /.testimonial content -->
+								<p class="message text-center">"Everything looks great... Thanks for the quick revision turn around. We were lucky to find you guys and will definitely be using some of your other services in the near future."</p>
+							</div>
+							<div class="client-info text-center">
+
+								<!-- /.client name -->
+								Mike Portnoy, <span class="company">Dream Theater</span>
+							</div>
+						</div>
+
+						<!-- /.testimonial 3 -->
+						<div class="testi-item">
+							<div class="client-pic text-center">
+
+								<!-- /.client photo -->
+								<img src="images/testi3.png" alt="client">
+							</div>
+							<div class="box">
+
+								<!-- /.testimonial content -->
+								<p class="message text-center">"Overall, the two reports were very clear and helpful so thank you for the suggestion to do the focus group. We are currently working with our developer to implement some of these suggestions."</p>
+							</div>
+							<div class="client-info text-center">
+
+								<!-- /.client name -->
+								Jennifer Love Hewitt, <span class="company">Lead Vocal</span>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- /.javascript files -->
+	<script src="js/jquery.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.sticky.js"></script>
+	<script src="js/wow.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/custom.js"></script>
+	<script>
+		new WOW().init();
+
+	</script>
+</body>
+
+</html>
