@@ -15,12 +15,64 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\ADESANYA\Desktop\MindHeal
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Chat/Chat.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhdFxDaGF0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Chat/GetAllChats.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hhdFxHZXRBbGxDaGF0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Client/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Client/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Client/GetAll.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XEdldEFsbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Client/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XFByb2ZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Client/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XFVwZGF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/ADESANYA/Desktop/MindHeal/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ADESANYA/Desktop/MindHeal/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Issues/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNzdWVzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Issues/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNzdWVzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Issues/GetAll.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNzdWVzXEdldEFsbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Issues/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNzdWVzXFByb2ZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Issues/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNzdWVzXFVwZGF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Role/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ADESANYA/Desktop/MindHeal/Views/Shared/Error.cshtml]
@@ -33,6 +85,54 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/ADESANYA/Desktop/MindHeal/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/SuperAdmin/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwZXJBZG1pblxQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Therapist/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlcmFwaXN0XENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Therapist/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlcmFwaXN0XERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Therapist/GetAll.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlcmFwaXN0XEdldEFsbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Therapist/GetAllTherapist.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlcmFwaXN0XEdldEFsbFRoZXJhcGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Therapist/GetTherapistByIssues.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlcmFwaXN0XEdldFRoZXJhcGlzdEJ5SXNzdWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Therapist/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlcmFwaXN0XFByb2ZpbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Therapist/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlcmFwaXN0XFVwZGF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Therapist/ViewApprovedTherapist.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlcmFwaXN0XFZpZXdBcHByb3ZlZFRoZXJhcGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Therapist/ViewRejectedTherapist.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlcmFwaXN0XFZpZXdSZWplY3RlZFRoZXJhcGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/Therapist/ViewUnApprovedTherapist.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGhlcmFwaXN0XFZpZXdVbkFwcHJvdmVkVGhlcmFwaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADESANYA/Desktop/MindHeal/Views/User/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ADESANYA/Desktop/MindHeal/Views/_ViewImports.cshtml]

@@ -12,12 +12,10 @@ namespace MindHeal.Controllers
         {
             _roleService = roleService;
         }
-
         public IActionResult Index()
         {
             return View();
         }
-
 
         public async Task<IActionResult> Create()
         {

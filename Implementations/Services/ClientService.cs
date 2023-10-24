@@ -11,18 +11,16 @@ namespace MindHeal.Implementations.Services
 {
     public class ClientService : IClientService
     {
+        //private readonly RoleManager<string> _roleManager;
         private readonly IClientRepository _clientRepository;
-        private readonly IUserRepository _userRepository;
         private readonly INotificationMessage _notificationMessage;
         private readonly UserManager<User> _userManager;
-        private readonly IRoleRepository _roleRepository;
-        public ClientService(IClientRepository clientRepository, IUserRepository userRepository, INotificationMessage notificationMessage, UserManager<User> userManager, IRoleRepository roleRepository)
+        public ClientService(IClientRepository clientRepository,  INotificationMessage notificationMessage, UserManager<User> userManager)
         {
             _clientRepository = clientRepository;
-            _userRepository = userRepository;
             _notificationMessage = notificationMessage;
             _userManager = userManager;
-            _roleRepository = roleRepository;
+            //_roleManager = roleManager;
         }
 
         private static bool ValidatePassword(string password)
@@ -32,25 +30,16 @@ namespace MindHeal.Implementations.Services
         }
         public async Task<BaseResponse<ClientDto>> Create(CreateClientRequestModel model)
         {
-            bool isValid = ValidatePassword(model.Password);
-            if (!isValid)
+            try
             {
+
+            var checkIfExist = await _userManager.FindByEmailAsync(model.Email);
+            if (checkIfExist != null) 
                 return new BaseResponse<ClientDto>
-                {
-                    Message = "Password is invalid. Password must be at least 8 characters long, contain at least one capital letter, and a special character.",
-                    Status = false,
-
-                };
-            }
-
-            var checkIfExist = await _clientRepository.CheckIfExist(model.Email);
-            if (checkIfExist != null) return new BaseResponse<ClientDto>
             {
                 Message = "User already exist",
                 Status = false,
             };
-
-            var role = await _roleRepository.Get<Role>(a => a.Name == "Client");
 
             var user = new User
             {
@@ -59,27 +48,21 @@ namespace MindHeal.Implementations.Services
                 Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 UserName = model.Email,
-                UserRoles = new List<UserRole>()
+                Gender = model.Gender,
             };
-
-            var userRole = new UserRole
-            {
-                UserId = user.Id,
-                RoleId = Guid.NewGuid(),
-                Role = role,
-                User = user,
-            };
-            user.UserRoles.Add(userRole);
-            await _userManager.CreateAsync(user, model.Password);
+           var createdUser =  await _userManager.CreateAsync(user, model.Password);
+            await _userManager.AddToRoleAsync(user, "Client");
             var client = new Client
             {
                 User = user,
-                UserId = userRole.UserId.ToString(),
+                UserId = user.Id,
                 State = model.State,
                 DateOfBirth = model.DateOfBirth,
 
             };
             await _clientRepository.Add(client);
+            var userr = await _userManager.FindByIdAsync(client.UserId);
+            userr.EmailConfirmed = true;
             await _clientRepository.save();
             var request = new WhatsappMessageSenderRequestModel { ReciprantNumber = model.PhoneNumber, MessageBody = "Client created successfully" };
             await _notificationMessage.SendWhatsappMessageAsync(request);
@@ -95,13 +78,23 @@ namespace MindHeal.Implementations.Services
                     Gender = client.User.Gender,
                 }
             };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return new BaseResponse<ClientDto>
+                {
+                    Message = "An error occurred while creating the client",
+                    Status = false,
+                };
+            }
 
         }
 
         public async Task<BaseResponse<ClientDto>> Delete(Guid id)
         {
 
-            var client = await _clientRepository.Get<Client>(id);
+            var client = await _clientRepository.GetClientByUserId(id.ToString());
             if (client == null) return new BaseResponse<ClientDto>
             {
                 Message = "Client Not Found",
@@ -150,6 +143,7 @@ namespace MindHeal.Implementations.Services
         public async Task<BaseResponse<ClientDto>> GetClient(Guid id)
         {
             var client = await _clientRepository.GetClient(id);
+            var user = await _clientRepository.GetClientByUserId(client.UserId);
             if (client == null) return new BaseResponse<ClientDto>
             {
                 Message = "Client not found",
@@ -162,14 +156,44 @@ namespace MindHeal.Implementations.Services
                 Status = true,
                 Data = new ClientDto
                 {
-                    Id = client.Id,
-                    FirstName = client.User.FirstName,
-                    LastName = client.User.LastName,
-                    PhoneNumber = client.User.PhoneNumber,
-                    Email = client.User.Email,
-                    DateOfBirth = client.DateOfBirth,
-                    State = client.State,
-                    Gender = client.User.Gender,
+                    Id = user.Id,
+                    FirstName = user.User.FirstName,
+                    LastName = user.User.LastName,
+                    PhoneNumber = user.User.PhoneNumber,
+                    Email = user.User.Email,
+                    DateOfBirth = user.DateOfBirth,
+                    State = user.State,
+                    Gender = user.User.Gender,
+                    UserId = user.UserId,
+                }
+            };
+        }
+
+        public async Task<BaseResponse<ClientDto>> GetClientForProfile(string id)
+        {
+            //var client = await _clientRepository.GetClient(id);
+            var user = await _clientRepository.GetClientByUserId(id);
+            if (user == null) return new BaseResponse<ClientDto>
+            {
+                Message = "Client not found",
+                Status = false,
+            };
+
+            return new BaseResponse<ClientDto>
+            {
+                Message = "Successful",
+                Status = true,
+                Data = new ClientDto
+                {
+                    Id = user.Id,
+                    FirstName = user.User.FirstName,
+                    LastName = user.User.LastName,
+                    PhoneNumber = user.User.PhoneNumber,
+                    Email = user.User.Email,
+                    DateOfBirth = user.DateOfBirth,
+                    State = user.State,
+                    Gender = user.User.Gender,
+                    UserId = user.UserId,
                 }
             };
         }
@@ -179,7 +203,8 @@ namespace MindHeal.Implementations.Services
             var request = new WhatsappMessageSenderRequestModel { ReciprantNumber = model.PhoneNumber, MessageBody = "Client edited successfully" };
             await _notificationMessage.SendWhatsappMessageAsync(request);
 
-            var client = await _clientRepository.GetClient(id);
+            //var client = await _clientRepository.GetClient(id);
+            var client = await _clientRepository.GetClientByUserId(id.ToString());
             if (client == null) return new BaseResponse<ClientDto>
             {
                 Message = "client not found",

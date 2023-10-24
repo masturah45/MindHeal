@@ -14,11 +14,12 @@ using MindHeal.Models.Entities;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+
+builder.Services.AddScoped<ISuperAdminRepository, SuperAdminRepository>();
+builder.Services.AddScoped<ISuperAdminService, SuperAdminService>();
 
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientService, ClientService>();
@@ -37,15 +38,32 @@ builder.Services.AddScoped<IChatService, ChatService>();
 
 builder.Services.AddScoped<IFileManager, FileManager>();
 builder.Services.AddIdentity<User, IdentityRole>(options =>
-{
-    options.Password.RequiredLength = 9; // Password length requirements
-                                         // Configure other password requirements here
-}).AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>()
-.AddEntityFrameworkStores<ApplicationDbContext>()
-.AddDefaultTokenProviders();
+            {
+                options.SignIn.RequireConfirmedEmail = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>() 
+            .AddDefaultTokenProviders();
+//builder.Services.AddIdentity<User, IdentityRole>(options =>
+//{
+//    options.Password.RequiredLength = 9; // Password length requirements
+//                                         // Configure other password requirements here
+//}).AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>()
+//.AddEntityFrameworkStores<ApplicationDbContext>()
+//.AddDefaultTokenProviders();
+//builder.Services.AddDefaultIdentity<User>(options =>
+//{
+//    options.SignIn.RequireConfirmedAccount = false;
+//})
+//    .AddRoles<IdentityRole>()
+//    .AddDefaultUI()
+//    .AddEntityFrameworkStores<ApplicationDbContext>()
+//    .AddDefaultTokenProviders();
+
 builder.Services.AddScoped<INotificationMessage, NotificationMessage>();
 builder.Services.AddOptions<WhatsappMessageSettings>().BindConfiguration(nameof(WhatsappMessageSettings));
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddControllersWithViews();
+builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(config =>
 {

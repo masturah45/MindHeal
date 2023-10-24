@@ -1,0 +1,81 @@
+﻿@model IEnumerable<MindHeal.Models.DTOs.TherapistDto>
+<partial name="_Notification" />
+
+<div class="container p-3">
+
+    <div class="row pt-4">
+
+        <div class="col-6">
+
+            <h2 calss="text-primary">ViewAll UnApproved Therapist</h2>
+
+        </div>
+
+        <div>
+            <table class="table table-bordered table-striped" style="width:100%">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            FirstName
+                        </th>
+
+                        <th>
+                            LastName
+                        </th>
+
+                        <th>
+                            PhoneNumber
+                        </th>
+                        <th>
+                            RegNo
+                        </th>
+                        <th>
+                            Certificate
+                        </th>
+                        <th>
+                            Credential
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                @foreach (var therapist in Model)
+                {
+                    <tr>
+                        <th>
+                            @therapist.FirstName
+                        </th>
+
+                        <th>
+                            @therapist.LastName
+                        </th>
+
+                        <th>
+                            @therapist.PhoneNumber
+                        </th>
+                        <th>
+                            @therapist.RegNo
+                        </th>
+                        <th>
+                            @therapist.Certificate
+                        </th>
+                        <th>
+                            @therapist.Credential
+                        </th>
+                        <td>
+                            <a asp-controller="Therapist" asp-action="ApprovedTherapist" asp-route-Id="@therapist.Id" class="btn btn-warning"><i class="bi bi-pencil-fill"></i>Approve</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Therapist" asp-action="RejectTherapist" asp-route-Id="@therapist.Id" class="btn btn-danger"><i class="bi bi-pencil-fill"></i>Reject</a>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+    </div>

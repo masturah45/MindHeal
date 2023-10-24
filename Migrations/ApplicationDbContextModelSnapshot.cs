@@ -244,34 +244,6 @@ namespace MindHeal.Migrations
                     b.ToTable("Issues");
                 });
 
-            modelBuilder.Entity("MindHeal.Models.Entities.Role", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-                });
-
             modelBuilder.Entity("MindHeal.Models.Entities.SuperAdmin", b =>
                 {
                     b.Property<Guid>("Id")
@@ -293,8 +265,7 @@ namespace MindHeal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("SuperAdmins");
                 });
@@ -326,9 +297,6 @@ namespace MindHeal.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid>("IssuesId")
-                        .HasColumnType("char(36)");
-
                     b.Property<string>("ProfilePicture")
                         .HasColumnType("longtext");
 
@@ -346,8 +314,6 @@ namespace MindHeal.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IssuesId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -404,7 +370,6 @@ namespace MindHeal.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
@@ -443,14 +408,10 @@ namespace MindHeal.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("char(36)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
@@ -471,40 +432,7 @@ namespace MindHeal.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.HasIndex("RoleId");
-
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("MindHeal.Models.Entities.UserRole", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -572,8 +500,8 @@ namespace MindHeal.Migrations
             modelBuilder.Entity("MindHeal.Models.Entities.SuperAdmin", b =>
                 {
                     b.HasOne("MindHeal.Models.Entities.User", "User")
-                        .WithOne("SuperAdmin")
-                        .HasForeignKey("MindHeal.Models.Entities.SuperAdmin", "UserId")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -582,19 +510,11 @@ namespace MindHeal.Migrations
 
             modelBuilder.Entity("MindHeal.Models.Entities.Therapist", b =>
                 {
-                    b.HasOne("MindHeal.Models.Entities.Issues", "Issues")
-                        .WithMany()
-                        .HasForeignKey("IssuesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MindHeal.Models.Entities.User", "User")
                         .WithOne("Therapist")
                         .HasForeignKey("MindHeal.Models.Entities.Therapist", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Issues");
 
                     b.Navigation("User");
                 });
@@ -602,7 +522,7 @@ namespace MindHeal.Migrations
             modelBuilder.Entity("MindHeal.Models.Entities.TherapistIssues", b =>
                 {
                     b.HasOne("MindHeal.Models.Entities.Issues", "Issues")
-                        .WithMany()
+                        .WithMany("TherapistIssues")
                         .HasForeignKey("IssuesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -618,39 +538,9 @@ namespace MindHeal.Migrations
                     b.Navigation("Therapist");
                 });
 
-            modelBuilder.Entity("MindHeal.Models.Entities.User", b =>
+            modelBuilder.Entity("MindHeal.Models.Entities.Issues", b =>
                 {
-                    b.HasOne("MindHeal.Models.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("MindHeal.Models.Entities.UserRole", b =>
-                {
-                    b.HasOne("MindHeal.Models.Entities.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MindHeal.Models.Entities.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MindHeal.Models.Entities.Role", b =>
-                {
-                    b.Navigation("UserRoles");
+                    b.Navigation("TherapistIssues");
                 });
 
             modelBuilder.Entity("MindHeal.Models.Entities.Therapist", b =>
@@ -663,13 +553,8 @@ namespace MindHeal.Migrations
                     b.Navigation("Client")
                         .IsRequired();
 
-                    b.Navigation("SuperAdmin")
-                        .IsRequired();
-
                     b.Navigation("Therapist")
                         .IsRequired();
-
-                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

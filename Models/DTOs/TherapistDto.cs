@@ -25,8 +25,8 @@ namespace MindHeal.Models.DTOs
         public Gender Gender { get; set; }
         public string Description { get; set; }
         public List<Guid> IssueIds { get; set; }
-        public IList<TherapistIssues > TherapistIssues { get; set; }
-        public SelectList Issues { get; set; }
+        public IList<TherapistIssues> TherapistIssues { get; set; } = new List<TherapistIssues>();
+        //public SelectList Issues { get; set; }
 
     }
 
@@ -75,6 +75,7 @@ namespace MindHeal.Models.DTOs
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string RegNo { get; set; }
         public Gender Gender { get; set; }
         public IFormFile ProfilePicture { get; set; }
         public string Description { get; set; }

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<MindHeal.Models.DTOs.TherapistDto>
+<partial name="_Notification" />
+@{
+    //Layout = null;
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h5 class="pb-1 mb-4">All Therapist</h5>
+    <div class="row mb-5">
+        @if(Model == null)
+        {
+            <marquee>No Available Therapist</marquee>
+        }
+        else
+        {
+
+        
+        @foreach (var therapist in Model)
+        {
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-3">
+                    <img class="card-img-top" src="~/Documents/@therapist.ProfilePicture" alt="Card image cap" height="300" />
+                    <div class="card-body">
+                        <h5 class="card-title">@therapist.FirstName @therapist.LastName </h5>
+                        <h5 class="card-title">
+                            @foreach (var item in therapist.TherapistIssues)
+                            {
+                                <span>  @item.Issues.Name </span>
+                            }
+                        </h5>
+                        <p class="card-text">
+                            @therapist.RegNo @therapist.PhoneNumber
+                        </p>
+                        <p class="card-text">
+                            <small class="text-muted">@therapist.Description </small>
+                        </p>
+                        <th>
+                            <a asp-controller="Chat" asp-action="Chat" asp-route-therapistId="@therapist.Id" class="btn btn-warning"><i class="bi bi-pencil-fill"></i>Chat With A Therapist</a>
+                        </th>
+                    </div>
+                </div>
+            </div>
+        }
+        }
+    </div>
+    <!--/ Images -->
+</div>
+<div class="content-backdrop fade"></div>

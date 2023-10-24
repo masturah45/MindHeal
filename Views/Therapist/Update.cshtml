@@ -1,0 +1,108 @@
+﻿@using MindHeal.Models.Entities.Enum
+@model MindHeal.Models.DTOs.TherapistDto
+<partial name="_Notification" />
+@*@{
+    Layout = null;
+}*@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.css" rel="stylesheet" />
+    <title>Document</title>
+</head>
+
+
+<body>
+    <section class="vh-100" style="background-color: white;">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-xl-9">
+
+                    <h1 class="text-white mb-4">Update</h1>
+
+                    <div class="card" style="border-radius: 15px;">
+                        <div asp-controller="Therapist" asp-action="Update" style="font-size: 130%;">
+                            <form asp-action="Update">
+                                <div class="card-body">
+
+                                    <div class="row align-items-center pt-4 pb-3">
+                                        <div class="col-md-3 ps-5">
+                                            <h6 class="mb-0">First Name</h6>
+                                        </div>
+                                        <div class="col-md-9 pe-5">
+                                            <input asp-for="@Model.FirstName" class="form-control form-control-lg" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center pt-4 pb-3">
+                                        <div class="col-md-3 ps-5">
+                                            <h6 class="mb-0">Last Name</h6>
+                                        </div>
+                                        <div class="col-md-9 pe-5">
+                                            <input asp-for="@Model.LastName" class="form-control form-control-lg" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center pt-4 pb-3">
+                                        <div class="col-md-3 ps-5">
+                                            <h6 class="mb-0">UserName</h6>
+                                        </div>
+                                        <div class="col-md-9 pe-5">
+                                            <input asp-for="@Model.UserName" class="form-control form-control-lg" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center pt-4 pb-3">
+                                        <div class="col-md-3 ps-5">
+                                            <h6 class="mb-0">PhoneNumber</h6>
+                                        </div>
+                                        <div class="col-md-9 pe-5">
+                                            <input asp-for="@Model.PhoneNumber" class="form-control form-control-lg" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center pt-4 pb-3">
+                                        <div class="col-md-3 ps-5">
+                                            <h6 class="mb-0">Email</h6>
+                                        </div>
+                                        <div class="col-md-9 pe-5">
+                                            <input asp-for="@Model.Email" class="form-control form-control-lg" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-center pt-4 pb-3">
+                                        <div class="col-md-3 ps-5">
+                                            <h6 class="mb-0">Description</h6>
+                                        </div>
+                                        <div class="col-md-9 pe-5">
+                                            <input asp-for="@Model.Description" class="form-control form-control-lg" />
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-bottom:auto">
+                                        <input type="submit" value="Update" class="btn-primary" id="form-submit">
+                                    </div>
+
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.1/mdb.min.js"></script>
+</body>

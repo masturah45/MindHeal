@@ -12,7 +12,6 @@ namespace MindHeal.Models.DTOs
         public string Email { get; set; }
         public string PassWord { get; set; }
         public Gender Gender { get; set; }
-        public IList<RoleDto> Roles { get; set; } = new List<RoleDto>();
 
     }
 

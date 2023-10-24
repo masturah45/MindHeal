@@ -1,0 +1,76 @@
+﻿@model IEnumerable<MindHeal.Models.DTOs.TherapistDto>
+@using System.Security.Claims
+<partial name="_Notification" />
+<div class="container p-3">
+
+    <div class="row pt-4">
+
+        <div class="col-6">
+
+            <h2 calss="text-primary">All Therapist</h2>
+
+        </div>
+
+        <div>
+
+            <table class="table table-bordered table-striped" style="width:100%">
+
+                <thead>
+
+                    <tr>
+                        <th>
+                            FirstName
+                        </th>
+
+                        <th>
+                            LastName
+                        </th>
+
+                        <th>
+                            PhoneNumber
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            View Detail
+                        </th>
+                    </tr>
+
+                </thead>
+
+                @foreach (var therapist in Model)
+                {
+                    <tr>
+                        <th>
+                            @therapist.FirstName
+                        </th>
+
+                        <th>
+                            @therapist.LastName
+                        </th>
+
+                        <th>
+                            @therapist.PhoneNumber
+                        </th>
+
+                        <th>
+                            @therapist.Email
+                        </th>
+
+                        <th>
+                            <a asp-controller="Therapist" asp-action="Delete" asp-route-id="@therapist.Id" class="btn btn-danger">Delete</a>
+                        </th>
+                    </tr>
+
+                }
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

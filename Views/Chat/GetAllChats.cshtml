@@ -1,0 +1,30 @@
+﻿@model IEnumerable<MindHeal.Models.DTOs.UserDto>
+
+    <style>
+        .main-page{
+            position: absolute;
+            top: 15%;
+            margin-left: 40px;
+        }
+        .lists :where(li){
+            list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        }
+    </style>
+        <main class="main-page">
+            <h1>Chats</h1>
+            <ul class="lists">
+                <li>
+                    @foreach (var user in Model)
+                    {
+                        <a asp-route-id=@user.Id asp-action="Chat">
+                            @user.FirstName
+                            @user.LastName
+                        </a>
+                    }
+                </li>
+            </ul>
+
+        </main>

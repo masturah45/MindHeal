@@ -10,6 +10,8 @@ namespace MindHeal.Implementations.Repositories
     {
         protected ApplicationDbContext _context;
 
+        
+
         public async Task<T> Add<T>(T entity) where T : BaseEntity
         {
             await _context.Set<T>().AddAsync(entity);

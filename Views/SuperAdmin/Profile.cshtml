@@ -1,0 +1,61 @@
+﻿@using MindHeal.Models.Entities.Enum
+@using System.Security.Claims
+@model MindHeal.Models.DTOs.SuperAdminDto
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/site.css" />
+    <title>@ViewData["Title"] SuperAdmin Profile</title>
+</head>
+
+<!-- / Navbar -->
+<!-- Content wrapper -->
+<body style="background-color: blue; height: 100vh;">
+    <div class="content-wrapper"
+         style=" position: absolute;
+                    top: 20%; left: 30%;
+                    height: 60vh;
+                    width: 30vw;
+                    /*box-shadow: 3px 3px  6px 6px #fff; */
+                    border: 1px solid grey;
+                    border-radius: 30px;
+                    padding-left: 30px;
+                    background-color: white;
+                    color: blue;
+">
+        <!-- Content -->
+        <div>
+            @*<h2><marquee direction="right">SuperAdmin Details</marquee></h2>*@
+            <h3 align="center">SuperAdmin Details</h3>
+            <div style="width: 10vw;
+                       height: 20vh;
+                       background-color: lightgrey;
+                       border-radius: 50%;
+                       margin-left: 28%;
+                       box-shadow: 3px 3px 3px 3px grey;
+
+">
+            </div>
+            <div style="margin-top: 30px;">
+                <div>
+                    <h5>@Html.DisplayNameFor(model => model.FirstName) : @Html.DisplayFor(model => User.Identity.Name)</h5>
+                </div>
+
+                <div>
+                    <h5>@Html.DisplayNameFor(model => model.Email) : @Html.DisplayFor(model => User.FindFirst(ClaimTypes.Email).Value)</h5>
+                </div>
+
+                <div>
+                    <h5>@Html.DisplayNameFor(model => model.PhoneNumber) : @Html.DisplayFor(model => User.FindFirst(ClaimTypes.HomePhone).Value)</h5>
+                </div>
+
+            </div>
+            <div class="content-backdrop fade"></div>
+        </div>
+
+    </div>
+
+</body>
+</html>

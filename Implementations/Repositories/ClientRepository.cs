@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MindHeal.Data;
 using MindHeal.Interfaces.IRepositories;
 using MindHeal.Models.Entities;
 using System.Linq.Expressions;
@@ -7,11 +8,10 @@ namespace MindHeal.Implementations.Repositories
 {
     public class ClientRepository : BaseRespository, IClientRepository
     {
-        public async Task<Client> CheckIfExist(string email)
+        public ClientRepository(ApplicationDbContext context)
         {
-            return await _context.Clients.Where(e => e.User.Email.Equals(email)).FirstOrDefaultAsync();
+            _context = context;
         }
-
         public async Task<IEnumerable<Client>> GetAllClient()
         {
             return await _context.Clients.Include(a => a.User).Where(x => !x.IsDeleted).ToListAsync();
@@ -26,6 +26,11 @@ namespace MindHeal.Implementations.Repositories
         public async Task<Client> GetClient(Guid id)
         {
             return await _context.Clients.Include(a => a.User).Where(x => !x.IsDeleted).FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public async Task<Client> GetClientByUserId(string id)
+        {
+            return await _context.Clients.Include(a => a.User).Where(x => !x.IsDeleted).FirstOrDefaultAsync(a => a.UserId == id);
         }
 
         public async Task<Client> GetClient(Expression<Func<Client, bool>> expression)

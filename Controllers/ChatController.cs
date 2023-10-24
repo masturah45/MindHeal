@@ -56,9 +56,19 @@ namespace MindHeal.Controllers
                 var Id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 var chat = await _chatService.CreateChat(model, Guid.Parse(Id), id, role);
             }
-            var loginid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+               var loginid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+           //if(role == "Client")
+           // {
+           //     var client = _clientService.GetClientForProfile(loginid);
+           //     ViewBag.ClientName = client.Result.Data.FirstName;
+           // }
+           //else
+           // {
+           //     var therapist = _therapistService.GetTherapistForProfile(loginid);
+           //     ViewBag.ClientName = therapist.Result.Data.FirstName;
+           // }
             var chats = await _chatService.GetAllChatFromASender(Guid.Parse(loginid), id, role);
             return View(chats.Data);
         }
-    }
+    } 
 }

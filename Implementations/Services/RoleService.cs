@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MindHeal.Interfaces.IRepositories;
 using MindHeal.Interfaces.IServices;
 using MindHeal.Models.DTOs;
 using MindHeal.Models.Entities;
@@ -8,32 +7,30 @@ namespace MindHeal.Implementations.Services
 {
     public class RoleService : IRoleService
     {
-        private readonly IRoleRepository _roleRepository;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public RoleService(IRoleRepository roleRepository)
+        public RoleService(RoleManager<IdentityRole> roleManager)
         {
-            _roleRepository = roleRepository;
+            _roleManager = roleManager;
         }
+
         public async Task<BaseResponse<RoleDto>> Create(CreateRoleRequestModel model)
         {
-            var roleExist = await _roleRepository.Get<Role>(b => b.Name == model.Name);
+            var roleExist = await _roleManager.FindByNameAsync(model.Name);
             if (roleExist != null) return new BaseResponse<RoleDto>
             {
                 Message = "Role already exist",
                 Status = false,
             };
 
-            var role = new Role
+            var role = new IdentityRole
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(),
                 Name = model.Name,
-                Description = model.Description,
-                DateCreated = DateTime.Now,
-                DateUpdated = DateTime.Now,
-                IsDeleted = false,
+             
             };
 
-            await _roleRepository.Add(role);
+            await _roleManager.CreateAsync(role);
 
             return new BaseResponse<RoleDto>
             {
@@ -42,27 +39,6 @@ namespace MindHeal.Implementations.Services
                 Data = new RoleDto
                 {
                     Name = model.Name
-                }
-            };
-        }
-
-        public async Task<BaseResponse<RoleDto>> GetRoleByName(string name)
-        {
-            var role = _roleRepository.GetRoleByName(name);
-            if (role == null) return new BaseResponse<RoleDto>
-            {
-                Message = "role not found",
-                Status = false,
-            };
-            return new BaseResponse<RoleDto>
-            {
-                Message = "Successfully",
-                Status = true,
-                Data = new RoleDto
-                {
-                    Id = Guid.NewGuid(),
-                    Name = role.Name,
-                    Description = role.Description,
                 }
             };
         }

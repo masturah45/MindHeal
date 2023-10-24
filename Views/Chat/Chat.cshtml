@@ -1,0 +1,219 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MindHeal.Models.Entities
+@model IEnumerable<MindHeal.Models.DTOs.ChatDto>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en"
+      class="light-style layout-menu-fixed"
+      dir="ltr"
+      data-theme="theme-default"
+      data-assets-path="../assets/"
+      data-template="vertical-menu-template-free">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Heal Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    @*<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/index.css">*@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    @*<link rel="stylesheet" href="/assets/vendor/css/core.css" class="template-customizer-core-css" />*@
+    @*<link rel="stylesheet" href="/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />*@
+    @*<link rel="stylesheet" href="/assets/css/demo.css" />*@
+
+    <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <link rel="stylesheet" href="/assets/vendor/libs/apex-charts/apex-charts.css" />
+
+    <script src="/assets/vendor/js/helpers.js"></script>
+
+    <script src="/assets/js/config.js"></script>
+
+
+
+
+    <script src="../assets/js/config.js"></script> 
+    <style>
+       /* body{
+            overflow: hidden;
+        }*/
+        .hi{
+            color: #ffffff;
+            background-color: skyblue;
+            border-radius: 5px;
+            border: none;
+            width: 5vw;
+            height: 5vh;
+            font-weight: bolder;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        main{
+            height: 97vh;
+            width: 99vw;
+        }  
+        .chatbody::-webkit-scrollbar{
+            width: 0.5em;
+        }
+        .chatbody{
+            height: 75vh;
+            overflow-y: scroll;
+            
+        }
+        .outgoing{
+            position: relative;
+            text-align: right;
+            right: -145%;
+        }
+        .incoming{
+            position: relative;
+            text-align: left;
+            left: 0;
+        }
+        header{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 10px;
+            padding-right: 10px;
+            box-shadow: 3px 3px 6px 6px #eee;
+        }
+        header h1{
+            color: lightblue;
+        }
+        .sendroom2{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            height: 50px;
+            padding: 10px;
+            align-items: center;
+            box-shadow: 3px 3px 6px 6px #eee;
+        }
+        .sendroom2 input{
+            width: 90vw;
+            height: 40px;
+            border-radius: 10px;
+            border: 2px solid #eee;
+            padding-left: 10px;
+
+        }
+        .sendroom2 button{
+            width: 6vw;
+            height: 41px;
+            border-radius: 10px;
+            border: none;
+        }
+        .message{
+            border: 2px solid skyblue;
+            padding: 10px;
+            border-radius: 20px;
+            
+        }
+        .chat{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 40vw
+           
+        }
+        .send{
+            background-color: skyblue;
+            color: #ffffff;
+        }
+
+    </style>
+</head>
+<body>
+   
+    <main class="main">
+        <header>
+            <div class="title">
+                <h1>Mind Heal</h1>
+            </div>
+            <a asp-action="GetAllChats" class="hi">
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </header>
+
+         <section class="chatbody">
+            <div class="chat" id="chat-container">
+                    @if (Model == null)
+                    {
+                        <p>Start a new conversation</p>
+                    }
+                    else
+                    {
+                        @foreach (var chat in Model)
+                        {
+                            <div class="message @((chat.LoggedInId == chat.SenderId) ? "outgoing" : "incoming")">
+                                <p>@chat.Message</p>
+                                <small>@chat.PostedTime</small>
+                                   @if(@chat.Seen)
+                                    {
+                                        <small><i class="bi bi-check2-all"></i></small>
+                                    } else {
+                                <small><i class="bi bi-check2"></i></small>
+                                    }
+
+                            </div>
+                        }
+                    }
+                </div>
+         </section>
+         <section class="sendroom">
+            <form asp-action="Chat" onsubmit="scrollToBottom()">
+                <div class="sendroom2">
+                    <div class="col-sm-10 form-group">
+                        <input type="text" for="Message" placeholder="Type your message...." name="Message" class="form-control" required>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="submit" class="send">
+                        <i class="bi bi-send"></i> 
+                        </button>
+                    </div>
+                </div>
+            </form>
+         </section>
+
+    </main>
+
+    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../assets/vendor/js/bootstrap.js"></script>
+    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="../assets/vendor/js/menu.js"></script>
+    <script src="../assets/js/main.js"></script>
+
+    <script src="../assets/js/pages-account-settings-account.js"></script>
+
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+
+    <script>
+
+        //function scrollToBottom() {
+        //    const chatbody = document.querySelector('.chatbody');
+        //    const windowHeight = window.innerHeight;
+        //    const documentHeight = chatbody.scrollHeight;
+        //    const scrollPosition = documentHeight - windowHeight;
+        //    window.scrollTo(0, scrollPosition);
+
+        //        window.scrollTo(0, scrollPosition);
+        //}
+    </script>
+  
+     
+</body>
+</html>

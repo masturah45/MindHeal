@@ -1,4 +1,6 @@
-﻿namespace MindHeal.Models.DTOs
+﻿using MindHeal.Models.Entities;
+
+namespace MindHeal.Models.DTOs
 {
     public class TherapistIssuesDto
     {

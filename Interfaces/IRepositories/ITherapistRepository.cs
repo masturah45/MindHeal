@@ -6,6 +6,7 @@ namespace MindHeal.Interfaces.IRepositories
     public interface ITherapistRepository : IBaseRespository
     {
         Task<Therapist> GetTherapist(Guid id);
+        Task<Therapist> GetTherapistByUserId(string id);
         Task<Therapist> CheckIfExist(string email);
         Task<Therapist> GetTherapist(Expression<Func<Therapist, bool>> expression);
         Task<IEnumerable<Therapist>> GetAllTherapist();

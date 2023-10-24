@@ -3,9 +3,7 @@
 @using System.Security.Claims;
 @{
 
-    var claims = User.Claims;
-    var role = @claims.FirstOrDefault(c => c.Type == "role")?.Value;
-    var x = role;
+    var role = User.FindFirstValue(ClaimTypes.Role);
 }
 <!DOCTYPE html>
 
@@ -32,7 +30,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Mind Heal | @ViewData</title>
 
     <meta name="description" content="" />
 
@@ -119,7 +117,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
+                        <span class="app-brand-text demo menu-text fw-bolder ms-2">Mind Heal</span>
                     </a>
 
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -132,15 +130,22 @@
                     @if (@role == "SuperAdmin")
                     {
                         <li class="menu-item mb-2">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="DashBoard">DashBoard</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="DashBoard">SuperAdmin DashBoard</a>
                         </li>
                         <ul style="display: flex; flex-direction: column; gap: 10px;">
                             <li class="menu-item mb-2">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Therapist" asp-action="GetAllTherapist">All Therapist</a>
                             </li>
-                            <li class="menu-item mb-2">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="SuperAdmin" asp-action="Profile">View Profile</a>
-                            </li>
+                            @*<li class="menu-item mb-2">
+                                <a 
+                                    class="nav-link text-dark" 
+                                    asp-area=""
+                                    asp-controller="SuperAdmin"
+                                     asp-action="Profile"
+                                     asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)"
+
+                                >View Profile</a>
+                            </li>*@
                             <li class="menu-item mb-2">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="GetAll">All Client</a>
                             </li>
@@ -160,43 +165,56 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Therapist" asp-action="ViewRejectedTherapist">Rejected Therapist</a>
                             </li>
                             <li class="menu-item mb-2">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Therapist" asp-action="GetAll">All Therapists</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Therapist" asp-action="GetAll">Available Therapists</a>
                             </li>
                         </ul>
                     }
                     @if (@role == "Therapist")
                     {
+                        <li class="menu-item mb-2">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="DashBoard">Therapist DashBoard</a>
+                        </li>
                         <ul>
 
                             <li class="menu-item mb-2">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="GetAllChats">View Chat</a>
                             </li>
                             <li class="menu-item mb-2">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Therapist" asp-action="Profile">View Profile</a>
+                                <a 
+                                    class="nav-link text-dark" 
+                                asp-area="" asp-controller="Therapist" 
+                                asp-action="Profile" 
+                                asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" 
+                                >View Profile</a>
                             </li>
                         </ul>
                     }
                     @if (@role == "Client")
                     {
+                        <li class="menu-item mb-2">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="DashBoard">Client DashBoard</a>
+                        </li>
                         <ul>
                             <li class="menu-item mb-2">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Create">Book A Therapist</a>
-                            </li>
-                            <li class="menu-item mb-2">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Profile">View Profile</a>
-                            </li>
-                            <li class="menu-item mb-2">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Profile">View Booking Profile</a>
+                                <a 
+                                    class="nav-link text-dark" 
+                                    asp-area="" asp-controller="Client"  
+                                    asp-action="Profile"
+                                    asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)"
+                                >View Profile</a>
                             </li>
                             <li class="menu-item mb-2">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="GetAllChats">View Chat</a>
+                            </li>
+                            <li class="menu-item mb-2">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Therapist" asp-action="GetAll">Available Therapists</a>
                             </li>
                         </ul>
                     }
                     <li class="menu-item mb-2">
                         <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Sign Out</a>
                     </li>
-                </ul>
+                    </ul>
             </aside>
             <!-- / Menu -->
             <!-- Layout container -->
@@ -215,57 +233,7 @@
 
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
-                            <!-- Place this tag where you want the button to render. -->
-                            <li class="nav-item lh-1 me-3">
-                                <a class="github-button"
-                                   href="https://github.com/themeselection/sneat-html-admin-template-free"
-                                   data-icon="octicon-star"
-                                   data-size="large"
-                                   data-show-count="true"
-                                   aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
-                            </li>
-
-                            <!-- User -->
-                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                                    <div class="avatar avatar-online">
-                                        <img src="../assets/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle" />
-                                    </div>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        <a class="dropdown-item" href="#">
-                                            <div class="d-flex">
-                                                <div class="flex-shrink-0 me-3">
-                                                    <div class="avatar avatar-online">
-                                                        <img src="../assets/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle" />
-                                                    </div>
-                                                </div>
-                                                <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">John Doe</span>
-                                                    <small class="text-muted">Admin</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="dropdown-divider"></div>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="bx bx-user me-2"></i>
-                                            <span class="align-middle">My Profile</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="auth-login-basic.html">
-                                            <i class="bx bx-power-off me-2"></i>
-                                            <span class="align-middle">Log Out</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!--/ User -->
+                           
                         </ul>
                     </div>
                 </nav>

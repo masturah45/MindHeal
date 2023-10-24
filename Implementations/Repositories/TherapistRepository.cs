@@ -3,11 +3,16 @@ using MindHeal.Models.Entities.Enum;
 using MindHeal.Models.Entities;
 using System.Linq.Expressions;
 using MindHeal.Interfaces.IRepositories;
+using MindHeal.Data;
 
 namespace MindHeal.Implementations.Repositories
 {
     public class TherapistRepository : BaseRespository, ITherapistRepository
     {
+        public TherapistRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         public async Task<Therapist> CheckIfExist(string email)
         {
             return await _context.Therapists.Where(e => e.User.Email.Equals(email)).FirstOrDefaultAsync();
@@ -15,13 +20,17 @@ namespace MindHeal.Implementations.Repositories
 
         public async Task<IEnumerable<Therapist>> GetAllAvailableTherapist()
         {
-            return await _context.Therapists.Where(x => x.IsAvalaible == true).ToListAsync();
+            return await _context.Therapists
+                .Where(x => x.IsAvalaible && x.Status == Approval.Approved)
+                .Include(x => x.TherapistIssues)
+                .ThenInclude(x => x.Issues)
+                .Include(a => a.User).Where(x => !x.IsDeleted).ToListAsync();
         }
 
         public async Task<IEnumerable<Therapist>> GetAllTherapist()
         {
             return await _context.Therapists
-                .Include(x => x.Issues)
+                .Include(x => x.TherapistIssues)
                 .Include(a => a.User).Where(x => !x.IsDeleted).ToListAsync();
         }
 
@@ -44,7 +53,10 @@ namespace MindHeal.Implementations.Repositories
         {
             return await _context.Therapists.Where(x => x.Status == Approval.Rejected && !x.IsDeleted).Include(a => a.User).ToListAsync();
         }
-
+        public async Task<Therapist> GetTherapistByUserId(string id)
+        {
+            return await _context.Therapists.Include(a => a.User).Where(x => !x.IsDeleted).FirstOrDefaultAsync(a => a.UserId == id);
+        }
         public async Task<Therapist> GetTherapist(Guid id)
         {
             return await _context.Therapists.Include(a => a.User).Where(x => !x.IsDeleted).FirstOrDefaultAsync(a => a.Id == id);

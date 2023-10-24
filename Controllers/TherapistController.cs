@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MindHeal.Implementations.Services;
 using MindHeal.Interfaces.IServices;
 using MindHeal.Models.DTOs;
+using MindHeal.Models.Entities;
+using System.Security.Claims;
 
 namespace MindHeal.Controllers
 {
@@ -12,7 +15,7 @@ namespace MindHeal.Controllers
         private readonly ITherapistIssuesService _therapistIssuesService;
         private readonly IIssuesService _issuesService;
 
-        public TherapistController(IClientService clientService, ITherapistService therapistService, ITherapistIssuesService    therapistIssuesService, IIssuesService issuesService)
+        public TherapistController(IClientService clientService, ITherapistService therapistService, ITherapistIssuesService therapistIssuesService, IIssuesService issuesService)
         {
             _clientService = clientService;
             _therapistService = therapistService;
@@ -39,38 +42,49 @@ namespace MindHeal.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateTherapistRequestModel model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                var result = await _therapistService.Create(model);
+                if(result.Status)
+                {
+                    TempData["success"] = "Therapist Created Successfully";
+                    return RedirectToAction("Index", "Home");
+                }
                 TempData["error"] = "Therapist Created error";
                 return View(model);
             }
-            var responde = await _therapistService.Create(model);
-            if (!responde.Status)
-            {
-                TempData["error"] = responde.Message;
-                return View(model);
-            }
-            TempData["success"] = "Therapist Created Successfully";
-            return RedirectToAction("Index", "Home");
+            TempData["error"] = "Therapist Created error";
+            return View(model);
+
         }
 
         [HttpGet]
-        public async Task<IActionResult> Update(Guid id)
+        public async Task<IActionResult> Update(string id)
         {
-            var therapist = await _therapistService.GetTherapist(id);
+
+            var therapist = await _therapistService.GetTherapistForProfile(id);
             if (therapist == null)
             {
                 ViewBag.Error = "Therapist doesnt exist";
             }
             return View(therapist.Data);
         }
+        public async Task<IActionResult> UpdateAvailability()
+        {
+            
+                var Id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var t = await _therapistService.UpdateAvailability(Guid.Parse(Id));
+                TempData["success"] = "Therapist edited successfully";
+                return RedirectToAction("Dashboard", "User");
+            
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Guid id, UpdateTherapistRequestModel model)
+        public async Task<IActionResult> Update(string id, UpdateTherapistRequestModel model)
         {
-            var t = await _therapistService.Update(id, model);
+            var t = await _therapistService.Update(Guid.Parse(id), model);
             TempData["success"] = "Therapist edited successfully";
-            return RedirectToAction("TherapistBoard", "User");
+            return RedirectToAction("Profile");
         }
 
         [HttpGet]
@@ -78,16 +92,16 @@ namespace MindHeal.Controllers
         {
 
             var therapist = await _therapistService.GetTherapist(id);
-            if (therapist == null)
+            if (!therapist.Status)
             {
-                ViewBag.Error = "doesnt exist";
+                return NotFound();
             }
             return View(therapist.Data);
         }
 
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            await _therapistService.Delete(id);
+            await _therapistService.Delete(Guid.Parse(id));
             TempData["error"] = "Therapist deleted successfully";
             return RedirectToAction("GetAll", "Therapist");
         }
@@ -95,13 +109,25 @@ namespace MindHeal.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var therapists = await _therapistService.GetAll();
+            var therapists = await _therapistService.GetAllAvailableTherapist();
+           
             TempData["success"] = "All Therapist";
             return View(therapists);
         }
 
         [HttpGet]
 
+        public async Task<IActionResult> Profile(string id)
+       {
+            var therapist = await _therapistService.GetTherapistForProfile(id);
+            TempData["success"] = "Therapist Profile";
+            if (!therapist.Status)
+            {
+                return NotFound();
+            }
+            return View(therapist.Data);
+        }
+        [HttpGet]
         public async Task<IActionResult> ViewUnApprovedTherapist()
         {
             var therapist = await _therapistService.ViewUnapprovedTherapist();
@@ -153,6 +179,21 @@ namespace MindHeal.Controllers
             var therapists = await _therapistService.GetAll();
             TempData["success"] = "All Therapist";
             return View(therapists);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RejectTherapist(Guid id)
+        {
+            var therapist = await _therapistService.RejectapprovedTherapist(id);
+            return RedirectToAction("Dashboard", "User");
+        }
+
+        [HttpGet]
+
+        public async Task<IActionResult> ApprovedTherapist(Guid id)
+        {
+            var therapist = await _therapistService.Approve(id);
+            return RedirectToAction("Dashboard", "User");
         }
     }
 }

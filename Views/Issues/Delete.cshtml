@@ -1,0 +1,22 @@
+﻿@using MindHeal.Models.Entities.Enum
+@model MindHeal.Models.DTOs.IssuesDto
+<partial name="_Notification" />
+
+<partial name="_Notification" />
+
+
+<div class="mt-5 d-flex justify-content-center">
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                
+                <h1 class="my-3">@Model.Name</h1>
+                <h3 class="text-muted mb-1">@Model.Description</h3>
+                <div class="d-flex justify-content-center mb-2 row">
+                    <a asp-controller="Issues" asp-action="DeleteConfirmed" asp-route-id="@Model.Id" class="btn btn-warning col-10 my-3">Confirm Delete</a>
+                    <a asp-controller="Issues" asp-action="GetAll" class="btn btn-primary col-10">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

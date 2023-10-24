@@ -9,16 +9,16 @@ namespace MindHeal.Helper
     public class UserClaimsPrincipalFactory : UserClaimsPrincipalFactory<User>
     {
         private ApplicationDbContext _appliationContext;
-        private IUserRepository _userRepository;
-        private IRoleRepository _roleRepository;
+        //private IUserRepository _userRepository;
+        //private IRoleRepository _roleRepository;
         public UserClaimsPrincipalFactory(
         UserManager<User> userManager,
-        IOptions<IdentityOptions> optionsAccessor, ApplicationDbContext applicationContext, IUserRepository userRepository, IRoleRepository roleRepository)
+        IOptions<IdentityOptions> optionsAccessor, ApplicationDbContext applicationContext)
             : base(userManager, optionsAccessor)
         {
             _appliationContext = applicationContext;
-            _userRepository = userRepository;
-            _roleRepository = roleRepository;
+            //_userRepository = userRepository;
+            //_roleRepository = roleRepository;
         }
     }
 }

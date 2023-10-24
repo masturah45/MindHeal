@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MindHeal.Interfaces.IServices;
 using MindHeal.Models.DTOs;
+using MindHeal.Models.Entities;
 
 namespace MindHeal.Controllers
 {
@@ -28,49 +29,65 @@ namespace MindHeal.Controllers
         {
             if (ModelState.IsValid)
             {
+                var result = await _clientService.Create(model);
+                if(result.Status)
+                {
+                    TempData["success"] = "Client Created Successfully";
+                    return RedirectToAction("Index", "Home");
+                }
+
                 TempData["error"] = "Client Created error";
                 return View(model);
             }
-            await _clientService.Create(model);
-            TempData["success"] = "Client Created Successfully";
-            return RedirectToAction("Index", "Home");
+
+            TempData["error"] = "Client Created error";
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(string id)
+        {
+            var client = await _clientService.GetClientForProfile(id);
+            if (client == null)
+            {
+                ViewBag.Error = "Client doesnt exist";
+            }
+            return View(client.Data);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Guid id, UpdateClientRequestModel model)
+        public async Task<IActionResult> Update(string id, UpdateClientRequestModel model)
         {
-
-
-            await _clientService.Update(id, model);
+            await _clientService.Update(Guid.Parse(id), model);
             TempData["success"] = "Client updated successfully";
-            return RedirectToAction("Profile", "Client");
+            return RedirectToAction("Dashboard", "User");
         }
 
         public async Task<IActionResult> Delete(Guid id)
         {
 
             var client = await _clientService.GetClient(id);
-            if (client == null)
+            if (!client.Status)
             {
-                ViewBag.Error = "doesnt exist";
+                return NotFound();
             }
             return View(client.Data);
         }
 
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            await _clientService.Delete(id);
+            await _clientService.Delete(Guid.Parse(id));
             TempData["error"] = "Client deleted successfully";
             return RedirectToAction("GetAll", "Client");
         }
         [HttpGet]
-        public async Task<IActionResult> Profile(Guid id)
+        public async Task<IActionResult> Profile(string id)
         {
-            var client = await _clientService.GetClient(id);
+            var client = await _clientService.GetClientForProfile(id);
             TempData["sucess"] = "Client Profile";
-            if (client == null)
+            if (!client.Status)
             {
-                ViewBag.Error = "Client doesnt exist";
+                return NotFound();
             }
             return View(client.Data);
         }

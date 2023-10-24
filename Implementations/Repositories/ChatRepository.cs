@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MindHeal.Data;
 using MindHeal.Interfaces.IRepositories;
 using MindHeal.Models.Entities;
 
@@ -6,6 +7,10 @@ namespace MindHeal.Implementations.Repositories
 {
     public class ChatRepository : BaseRespository, IChatRepository
     {
+        public ChatRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         public async Task<List<Chat>> GetAllChatFromASender(Guid loginId, Guid userClicked)
         {
             return await _context.Chats

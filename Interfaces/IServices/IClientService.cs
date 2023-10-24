@@ -10,5 +10,6 @@ namespace MindHeal.Interfaces.IServices
         Task<BaseResponse<ClientDto>> Delete(Guid id);
         Task<IEnumerable<ClientDto>> GetAll();
         Task<List<UserDto>> GetAllClientByChat();
+        Task<BaseResponse<ClientDto>> GetClientForProfile(string id);
     }
 }

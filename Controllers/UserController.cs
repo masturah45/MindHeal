@@ -44,12 +44,15 @@ namespace MindHeal.Controllers
         public async Task<IActionResult> LogIn(LogInUserRequestModel model)
         {
             var user = await _userService.Login(model);
+           //var check = _therapistService.GetTherapist(Guid.Parse(user.Data.Id));
+            //if(check.)
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                return RedirectToAction("DashBoard", "Home");
+                TempData["success"] = "Login Successful";
+                return RedirectToAction("Dashboard", "User");
             }
-            ViewBag.error = "Invalid Email or password entered";
+            TempData["error"] = "Invalid email or password";
             return RedirectToAction("Index", "Home");
         }
 
@@ -61,21 +64,21 @@ namespace MindHeal.Controllers
         }
 
         [HttpGet]
-        public IActionResult SuperAdminBoard()
+        public IActionResult Dashboard()
         {
             return View();
         }
-        [HttpGet]
-        public async Task<IActionResult> ClientBoard()
-        {
-            var therapists = await _therapistService.GetAll();
-            return View(therapists);
-            //return View();
-        }
-        [HttpGet]
-        public IActionResult TherapistBoard()
-        {
-            return View();
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> ClientBoard()
+        //{
+        //    var therapists = await _therapistService.GetAll();
+        //    return View(therapists);
+        //    //return View();
+        //}
+        //[HttpGet]
+        //public IActionResult TherapistBoard()
+        //{
+        //    return View();
+        //}
     }
 }

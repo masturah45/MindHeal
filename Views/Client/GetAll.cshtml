@@ -1,0 +1,91 @@
+﻿@model IEnumerable<MindHeal.Models.DTOs.ClientDto>
+    <partial name="_Notification" />
+
+<div class="container p-3">
+
+    <div class="row pt-4">
+
+        <div class="col-6">
+
+            <h2 calss="text-primary">All Client</h2>
+
+        </div>
+
+        <div>
+
+            <table class="table table-bordered table-striped" style="width:100%">
+
+                <thead>
+
+                    <tr>
+                        <th>
+                            FirstName
+                        </th>
+
+                        <th>
+                            LastName
+                        </th>
+
+                        <th>
+                            PhoneNumber
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            DateOfBirth
+                        </th>
+
+                        <th>
+                            State
+                        </th>
+
+                        <th>
+                            View Detail
+                        </th>
+                    </tr>
+
+                </thead>
+
+                @foreach (var client in Model)
+                {
+                    <tr>
+                        <th>
+                            @client.FirstName
+                        </th>
+
+                        <th>
+                            @client.LastName
+                        </th>
+
+                        <th>
+                            @client.PhoneNumber
+                        </th>
+
+                        <th>
+                            @client.Email
+                        </th>
+
+                        <th>
+                            @client.DateOfBirth
+                        </th>
+
+                        <th>
+                            @client.State
+                        </th>
+                        <th>
+                            <a asp-controller="Client" asp-action="Delete" asp-route-id="@client.Id" class="btn btn-danger">Delete</a>
+                        </th>
+                    </tr>
+
+                }
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

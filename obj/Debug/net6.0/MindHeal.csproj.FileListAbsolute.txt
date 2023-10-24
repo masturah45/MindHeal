@@ -34,7 +34,11 @@ C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\Microsoft.IdentityModel.Toke
 C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\MySqlConnector.dll
 C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\RestSharp.dll
 C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\System.Text.Json.dll
+C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\MindHeal.csproj.AssemblyReference.cache
 C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\MindHeal.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\MindHeal.AssemblyInfoInputs.cache
@@ -46,6 +50,7 @@ C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\MindHeal.RazorAssemblyInfo.c
 C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\MindHeal.RazorAssemblyInfo.cs
 C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\staticwebassets.build.json
 C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout - Copy.cshtml.rz.scp.css
 C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\scopedcss\bundle\MindHeal.styles.css
 C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\scopedcss\projectbundle\MindHeal.bundle.scp.css
@@ -55,8 +60,3 @@ C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\refint\MindHeal.dll
 C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\MindHeal.pdb
 C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\MindHeal.genruntimeconfig.cache
 C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\ref\MindHeal.dll
-C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\RestSharp.dll
-C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\System.Text.Encodings.Web.dll
-C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\System.Text.Json.dll
-C:\Users\ADESANYA\Desktop\MindHeal\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
-C:\Users\ADESANYA\Desktop\MindHeal\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout - Copy.cshtml.rz.scp.css

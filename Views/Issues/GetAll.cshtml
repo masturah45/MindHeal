@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MindHeal.Models.DTOs.IssuesDto>
+
+<partial name="_Notification" />
+
+<div class="container p-3">
+
+    <div class="row pt-4">
+
+        <div class="col-6">
+
+            <h2 calss="text-primary"> All Issues</h2>
+
+        </div>
+
+        <div>
+
+            <table class="table table-bordered table-striped" style="width:100%">
+
+                <thead>
+
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Description
+                        </th>
+                    </tr>
+
+                </thead>
+
+                @foreach (var issues in Model)
+                {
+                    <tr>
+                        <th>
+                            @issues.Name
+                        </th>
+
+                        <th>
+                            @issues.Description
+                        </th>
+
+                        <th>
+                            <a asp-controller="Issues" asp-action="Profile" asp-route-id="@issues.Id"><i class="bi bi-pencil-fill"></i>View Info</a>
+                        </th>
+
+                        <th>
+                            <a asp-controller="Issues" asp-action="Update" asp-route-id="@issues.Id" class="btn btn-warning"><i class="bi bi-pencil-fill"></i>Edit</a>
+                        </th>
+
+                        <th>
+                            <a asp-controller="Issues" asp-action="Delete" asp-route-id="@issues.Id" class="btn btn-danger">Delete</a>
+                        </th>
+
+                        <th>
+                            <a asp-controller="Therapist" asp-action="GetTherapistByIssues" asp-route-IssueId="@issues.Id"><i class="bi bi-pencil-fill"></i>View Therapist</a>
+                        </th>
+                    </tr>
+
+                }
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

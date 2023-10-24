@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MindHeal.FileManagers;
 using MindHeal.Implementations.Repositories;
 using MindHeal.Interfaces.IRepositories;
 using MindHeal.Interfaces.IServices;
 using MindHeal.Models.DTOs;
 using MindHeal.Models.Entities;
+using MindHeal.Models.Entities.Enum;
 using System.Text.RegularExpressions;
 
 namespace MindHeal.Implementations.Services
@@ -12,48 +14,96 @@ namespace MindHeal.Implementations.Services
     public class TherapistService : ITherapistService
     {
         private readonly ITherapistRepository _therapistRepository;
-        private readonly IUserRepository _userRepository;
         private readonly IFileManager _fileManager;
         private readonly INotificationMessage _notificationMessage;
         private readonly UserManager<User> _userManager;
         private readonly IIssuesRepository _issuesRepository;
-        private readonly IRoleRepository _roleRepository;
-        public TherapistService(ITherapistRepository therapistRepository, IUserRepository userRepository, IFileManager fileManager, UserManager<User> userManager, INotificationMessage notificationMessage, IIssuesRepository issuesRepository, IRoleRepository roleRepository)
+        public TherapistService(ITherapistRepository therapistRepository,  IFileManager fileManager, UserManager<User> userManager, INotificationMessage notificationMessage, IIssuesRepository issuesRepository)
         {
             _therapistRepository = therapistRepository;
-            _userRepository = userRepository;
             _fileManager = fileManager;
             _userManager = userManager;
             _notificationMessage = notificationMessage;
             _issuesRepository = issuesRepository;
-            _roleRepository = roleRepository;
         }
         private static bool ValidatePassword(string password)
         {
             Regex regex = new Regex(@"^(?=.*[A-Z])(?=.*[@#$%^&+=])(?=.{8,})");
             return regex.IsMatch(password);
         }
-        public async Task<BaseResponse<TherapistDto>> Create(CreateTherapistRequestModel model)
+
+        public async Task<BaseResponse<TherapistDto>> Approve(Guid id)
         {
-            bool isValid = ValidatePassword(model.Password);
-            if (!isValid)
+            var therapist = await _therapistRepository.GetTherapist(id);
+            if (therapist == null) return new BaseResponse<TherapistDto>
             {
-                return new BaseResponse<TherapistDto>
-                {
-                    Message = "Password is invalid. Password must be at least 8 characters long, contain at least one capital letter, and a special character.",
-                    Status = false,
-
-                };
-            }
-
-
-            var checkIfExist = await _therapistRepository.CheckIfExist(model.Email);
-            if (checkIfExist != null) return new BaseResponse<TherapistDto>
-            {
-                Message = "User already exist",
+                Message = "Not Successful",
                 Status = false,
             };
-            var role = await _roleRepository.Get<Role>(b => b.Name == "Therapist");
+            therapist.Status = Approval.Approved;
+            therapist.IsDeleted = false;
+            var user = await _userManager.FindByIdAsync(therapist.UserId);
+            user.EmailConfirmed = true;
+            await _therapistRepository.save();
+            return new BaseResponse<TherapistDto>
+            {
+                Message = "Delete Successful",
+                Status = true,
+                Data = new TherapistDto
+                {
+                    Id = therapist.Id,
+                    FirstName = therapist.User.FirstName,
+                    LastName = therapist.User.LastName,
+                    PhoneNumber = therapist.User.PhoneNumber,
+                    RegNo = therapist.RegNo,
+                    Certificate = therapist.Certificate,
+                    Credential = therapist.Credential,
+                }
+
+            };
+        }
+
+        public async Task<BaseResponse<TherapistDto>> RejectapprovedTherapist(Guid id)
+        {
+            var therapist = await _therapistRepository.GetTherapist(id);
+            if (therapist == null) return new BaseResponse<TherapistDto>
+            {
+                Message = "Not Successful",
+                Status = false,
+            };
+            therapist.Status = Approval.Rejected;
+            await _therapistRepository.save();
+
+            return new BaseResponse<TherapistDto>
+            {
+                Message = "Delete Successful",
+                Status = true,
+                Data = new TherapistDto
+                {
+                    Id = therapist.Id,
+                    FirstName = therapist.User.FirstName,
+                    LastName = therapist.User.LastName,
+                    PhoneNumber = therapist.User.PhoneNumber,
+                    RegNo = therapist.RegNo,
+                    Certificate = therapist.Certificate,
+                    Credential = therapist.Credential,
+                }
+            };
+
+        }
+
+        public async Task<BaseResponse<TherapistDto>> Create(CreateTherapistRequestModel model)
+        {
+            try
+            {
+
+            var checkIfExist = await _userManager.FindByEmailAsync(model.Email);
+            if (checkIfExist != null)
+                return new BaseResponse<TherapistDto>
+                {
+                    Message = "User already exist",
+                    Status = false,
+                };
 
             var user = new User
             {
@@ -65,19 +115,11 @@ namespace MindHeal.Implementations.Services
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
                 IsDeleted = false,
-
-
+                UserName = model.Email,
             };
-            await _userManager.CreateAsync(user, model.Password);
-            var userRole = new UserRole
-            {
-                UserId = user.Id,
-                RoleId = role.Id,
-                Role = role,
-                User = user,
-            };
+             var createUser = await _userManager.CreateAsync(user, model.Password);
+            await _userManager.AddToRoleAsync(user, "Therapist");
 
-            await _roleRepository.Add<UserRole>(userRole);
             var certificatefile = await _fileManager.UploadFileToSystem(model.Certificate);
             var credentialsfile = await _fileManager.UploadFileToSystem(model.Credential);
             var profilepicturefile = await _fileManager.UploadFileToSystem(model.ProfilePicture);
@@ -85,16 +127,17 @@ namespace MindHeal.Implementations.Services
 
             var therapist = new Therapist
             {
+                User = user,
+                UserId = user.Id,
                 Certificate = certificatefile.Data.Name,
                 Credential = credentialsfile.Data.Name,
                 ProfilePicture = profilepicturefile.Data.Name,
                 UserName = model.UserName,
                 RegNo = model.RegNo,
                 Description = model.Description,
-                UserId = user.Id,
-                User = user
             };
             await _therapistRepository.Add(therapist);
+            await _therapistRepository.save();
             foreach (var item in model.IssueIds)
             {
                 var issue = await _issuesRepository.Get<Issues>(item);
@@ -108,7 +151,7 @@ namespace MindHeal.Implementations.Services
                 await _therapistRepository.Add<TherapistIssues>(therapistIssue);
             }
 
-            user.Therapist = therapist;
+            //user.Therapist = therapist;
             var request = new WhatsappMessageSenderRequestModel { ReciprantNumber = model.PhoneNumber, MessageBody = "Therapist created Successfully" };
             await _notificationMessage.SendWhatsappMessageAsync(request);
 
@@ -124,13 +167,25 @@ namespace MindHeal.Implementations.Services
                     Gender = therapist.User.Gender,
                 }
             };
-
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception here, you can log it, return an error response, etc.
+                // For example, you can log the exception and return a generic error response
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return new BaseResponse<TherapistDto>
+                {
+                    Message = "An error occurred while creating the client",
+                    Status = false,
+                };
+            }
 
         }
 
         public async Task<BaseResponse<TherapistDto>> Delete(Guid id)
         {
-            var therapist = await _therapistRepository.Get<Therapist>(id);
+            //var therapist = await _therapistRepository.GetTherapist(id);
+            var therapist = await _therapistRepository.GetTherapistByUserId(id.ToString());
             if (therapist == null) return new BaseResponse<TherapistDto>
             {
                 Message = "Therapist Not Found",
@@ -172,16 +227,22 @@ namespace MindHeal.Implementations.Services
         public async Task<IEnumerable<TherapistDto>> GetAllAvailableTherapist()
         {
             var therapists = await _therapistRepository.GetAllAvailableTherapist();
-            var listOftherapists = therapists.Select(a => new TherapistDto
+           if(therapists.Count() > 0)
             {
-                Id = a.Id,
-                //UserId = a.UserId,
-                FirstName = a.User.FirstName,
-                LastName = a.User.LastName,
-                Email = a.User.Email,
-                RegNo = a.RegNo,
-            }).ToList();
-            return listOftherapists;
+                var listOftherapists = therapists.Select(a => new TherapistDto
+                {
+                    Id = a.Id,
+                    UserId = a.UserId,
+                    FirstName = a.User.FirstName,
+                    LastName = a.User.LastName,
+                    ProfilePicture = a.ProfilePicture,
+                    PhoneNumber = a.User.PhoneNumber,
+                    Description = a.Description,
+                    TherapistIssues = a.TherapistIssues,
+                }).ToList();
+                return listOftherapists;
+            }
+            return null;
         }
 
         public async Task<List<UserDto>> GetAllTherapistByChat()
@@ -199,7 +260,9 @@ namespace MindHeal.Implementations.Services
         public async Task<BaseResponse<TherapistDto>> GetTherapist(Guid id)
         {
             var therapist = await _therapistRepository.GetTherapist(id);
-            if (therapist == null) return new BaseResponse<TherapistDto>
+            var user = await _therapistRepository.GetTherapistByUserId(therapist.UserId);
+
+            if (user == null) return new BaseResponse<TherapistDto>
             {
                 Message = "Therapist not found",
                 Status = false,
@@ -211,24 +274,80 @@ namespace MindHeal.Implementations.Services
                 Status = true,
                 Data = new TherapistDto
                 {
-                    Id = therapist.Id,
-                    FirstName = therapist.User.FirstName,
-                    LastName = therapist.User.LastName,
-                    PhoneNumber = therapist.User.PhoneNumber,
-                    Email = therapist.User.Email,
-                    RegNo = therapist.RegNo,
-                    Certificate = therapist.Certificate,
-                    Credential = therapist.Credential,
-                    ProfilePicture = therapist.ProfilePicture,
-                    Gender = therapist.User.Gender,
-
+                    Id = user.Id,
+                    FirstName = user.User.FirstName,
+                    LastName = user.User.LastName,
+                    PhoneNumber = user.User.PhoneNumber,
+                    Email = user.User.Email,
+                    RegNo = user.RegNo,
+                    Gender = user.User.Gender,
+                    UserId = user.UserId,
                 }
             };
         }
-
-        public Task<BaseResponse<TherapistDto>> Update(Guid id, UpdateTherapistRequestModel model)
+        public async Task<BaseResponse<TherapistDto>> GetTherapistForProfile(string id)
         {
-            throw new NotImplementedException();
+            //var therapist = await _therapistRepository.GetTherapist(id);
+            var user = await _therapistRepository.GetTherapistByUserId(id);
+
+            if (user == null) return new BaseResponse<TherapistDto>
+            {
+                Message = "Therapist not found",
+                Status = false,
+            };
+
+            return new BaseResponse<TherapistDto>
+            {
+                Message = "Successful",
+                Status = true,
+                Data = new TherapistDto
+                {
+                    Id = user.Id,
+                    FirstName = user.User.FirstName,
+                    LastName = user.User.LastName,
+                    PhoneNumber = user.User.PhoneNumber,
+                    Email = user.User.Email,
+                    RegNo = user.RegNo,
+                    Gender = user.User.Gender,
+                    UserId = user.UserId,
+                    IsAvailable = user.IsAvalaible,
+                }
+            };
+        }
+        public async Task<BaseResponse<TherapistDto>> Update(Guid id, UpdateTherapistRequestModel model)
+        {
+            var request = new WhatsappMessageSenderRequestModel { ReciprantNumber = model.PhoneNumber, MessageBody = "Therapist updated successfully" };
+            await _notificationMessage.SendWhatsappMessageAsync(request);
+            //var therapist = await _therapistRepository.GetTherapist(id);
+            var therapist = await _therapistRepository.GetTherapistByUserId(id.ToString());
+            if (therapist == null) return new BaseResponse<TherapistDto>
+            {
+                Message = "therapist not found",
+                Status = false,
+            };
+
+            therapist.User.FirstName = model.FirstName;
+            therapist.User.LastName = model.LastName;
+            therapist.User.Email = model.Email;
+            therapist.User.PhoneNumber = model.PhoneNumber;
+            therapist.Description = model.Description;
+            therapist.RegNo = model.RegNo;
+            therapist.DateCreated = DateTime.Now;
+            therapist.DateUpdated = DateTime.Now;
+            therapist.IsDeleted = false;
+
+            await _therapistRepository.Update(therapist);
+
+            return new BaseResponse<TherapistDto>
+            {
+                Message = "Successful",
+                Status = true,
+                Data = new TherapistDto
+                {
+                    FirstName = therapist.User.FirstName,
+                    LastName = therapist.User.LastName,
+                }
+            };
         }
 
         public async Task<BaseResponse<IEnumerable<TherapistDto>>> ViewapprovedTherapist()
@@ -311,6 +430,32 @@ namespace MindHeal.Implementations.Services
                 Status = true,
                 Data = listOftherapists
             };
+        }
+
+        public async Task<BaseResponse<TherapistDto>> UpdateAvailability(Guid id)
+        {
+            var therapist = await _therapistRepository.GetTherapistByUserId(id.ToString());
+            if (therapist == null) return new BaseResponse<TherapistDto>
+            {
+                Message = "therapist not found",
+                Status = false,
+            };
+            if(therapist.IsAvalaible)
+            {
+                therapist.IsAvalaible = false;
+                await _therapistRepository.Update(therapist);
+            }
+            else
+            {
+                therapist.IsAvalaible = true;
+                await _therapistRepository.Update(therapist);
+            }
+            return new BaseResponse<TherapistDto>
+            {
+                Message = "Successful",
+                Status = true,
+            };
+
         }
     }
 }

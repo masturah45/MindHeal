@@ -1,0 +1,22 @@
+﻿@using System.Security.Claims
+@using MindHeal.Models.Entities.Enum
+@model MindHeal.Models.DTOs.TherapistDto
+<partial name="_Notification" />
+
+<div class="mt-5 d-flex justify-content-center">
+<div class="col-lg-8">
+    <div class="card mb-4">
+        <div class="card-body text-center">
+            <img src="~/images/avatar.png" alt="avatar"
+                 class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3">@Model.FirstName @Model.LastName</h5>
+            <p class="text-muted mb-1">@Model.Email</p>
+            <p class="text-muted mb-1">@Model.PhoneNumber</p>
+            <div class="d-flex justify-content-center mb-2 row">
+                <a asp-controller="Therapist" asp-action="DeleteConfirmed" asp-route-id="@Model.UserId" class="btn btn-warning col-10 my-3">Confirm Delete</a>
+                <a asp-controller="Therapist" asp-action="GetAll" class="btn btn-primary col-10">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
